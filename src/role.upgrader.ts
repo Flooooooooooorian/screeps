@@ -1,4 +1,4 @@
-const roleUpgraderOld = {
+const roleUpgrader = {
 
   /** @param {Creep} creep **/
   run: function(creep: Creep) {
@@ -24,21 +24,8 @@ const roleUpgraderOld = {
           creep.moveTo(structs[0], {visualizePathStyle: {stroke: '#ffaa00'}});
         }
       }
-      else{
-        creep.say("No Container found")
-        const sources = creep.room.find(FIND_SOURCES_ACTIVE)
-        //const source = creep.pos.findClosestByRange(FIND_SOURCES_ACTIVE)
-        if(creep.harvest(sources[1]) == ERR_NOT_IN_RANGE) {
-          creep.moveTo(sources[1], {visualizePathStyle: {stroke: '#ffaa00'}});
-        }
-      }
-      //const sources = creep.room.find(FIND_SOURCES_ACTIVE)
-      //const source = creep.pos.findClosestByRange(FIND_SOURCES_ACTIVE);
-      //if(creep.harvest(sources[1]) == ERR_NOT_IN_RANGE) {
-      //    creep.moveTo(sources[1], {visualizePathStyle: {stroke: '#ffaa00'}});
-      //}
     }
   }
 };
 
-export default roleUpgraderOld;
+export default roleUpgrader;

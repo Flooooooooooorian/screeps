@@ -6,6 +6,7 @@ const autospawn = {
     this.miner();
     this.deliverer();
     this.builder();
+    this.upgrader();
 
     if(Game.spawns['Spawn1'].spawning) {
       const spawningCreep = Game.creeps[Game.spawns['Spawn1'].spawning.name];
@@ -22,6 +23,15 @@ const autospawn = {
         delete Memory.creeps[name];
         console.log('Clearing non-existing creep memory:', name);
       }
+    }
+  },
+
+  upgrader: () => {
+    const upgraders = _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader');
+    if (upgraders.length < 1) {
+      const newName = 'Upgrader' + Game.time;
+      Game.spawns['Spawn1'].spawnCreep([WORK, CARRY, MOVE], newName,
+        {memory: {role: 'upgrader', working: false}});
     }
   },
 

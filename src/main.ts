@@ -1,6 +1,6 @@
 import { ErrorMapper } from "utils/ErrorMapper";
 import roleDeliverer from 'role.deliverer';
-import roleUpgraderOld from 'role.upgrader.old';
+import roleUpgrader from 'role.upgrader';
 import roleBuilder from 'role.builder';
 import roleMiner from 'role.miner';
 import roleRepairerOld from 'role.repairer.old';
@@ -46,9 +46,9 @@ export const loop = ErrorMapper.wrapLoop(() => {
     if(creep.memory.role == 'deliverer') {
       roleDeliverer.run(creep);
     }
-    // if(creep.memory.role == 'upgrader') {
-    //   roleUpgraderOld.run(creep);
-    // }
+    if(creep.memory.role == 'upgrader') {
+      roleUpgrader.run(creep);
+    }
     if(creep.memory.role == 'builder') {
       roleBuilder.run(creep);
     }
