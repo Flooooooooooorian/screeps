@@ -3,13 +3,13 @@ const roleBuilder = {
   /** @param {Creep} creep **/
   run: function (creep: Creep) {
 
-    if (creep.store[RESOURCE_ENERGY] == 0) {
+    if (creep.memory.working && creep.store[RESOURCE_ENERGY] == 0) {
       creep.memory.working = false;
       const structs = _.sortBy(_.filter(creep.room.find(FIND_STRUCTURES), (s) => s.structureType == STRUCTURE_CONTAINER && s.store.getUsedCapacity() > 0), s => (s as StructureContainer).store.getFreeCapacity())
       creep.memory.target = structs[0].id
       creep.say('🔄 collecting');
     }
-    if (creep.store.getFreeCapacity() == 0) {
+    if (!creep.memory.working && creep.store.getFreeCapacity() == 0) {
       creep.memory.working = true;
       this.pickConstruction(creep)
     }

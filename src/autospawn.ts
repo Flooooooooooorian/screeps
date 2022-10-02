@@ -42,7 +42,7 @@ const autospawn = {
     if(builders.length < (constructionSites.length / 10)) {
       const newName = 'Builder' + Game.time;
       Game.spawns['Spawn1'].spawnCreep([CARRY, WORK, MOVE], newName,
-        {memory: {role: 'builder', working: false}});
+        {memory: {role: 'builder', working: true}});
     }
   },
 
@@ -66,9 +66,9 @@ const autospawn = {
         .find(FIND_SOURCES)
         .forEach((source) => {
           const minersInMemory = _.filter(Game.creeps, (creep) => creep.memory.role == 'miner' && creep.memory.target == source.id);
-          if(minersInMemory.length < 1) {
+          if(minersInMemory.length < 2) {
             const newName = 'Miner' + source.id + Game.time;
-            const result = Game.spawns['Spawn1'].spawnCreep([MOVE, MOVE, CARRY, CARRY, WORK, WORK], newName, {memory: {role: 'miner', target: source.id, working: false}});
+            const result = Game.spawns['Spawn1'].spawnCreep([MOVE, CARRY, WORK, WORK, WORK], newName, {memory: {role: 'miner', target: source.id, working: false}});
             if(result != 0) {
               Game.spawns['Spawn1'].spawnCreep([MOVE, CARRY, WORK], newName, {memory: {role: 'miner', target: source.id, working: false}});
             }
