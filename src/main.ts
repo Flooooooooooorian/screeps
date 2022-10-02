@@ -58,5 +58,7 @@ export const loop = ErrorMapper.wrapLoop(() => {
     // if(creep.memory.role == 'repairer') {
     //   roleRepairerOld.run(creep);
     // }
+
+    tower.run()
   }
 });
