@@ -11,24 +11,16 @@ const roleBuilder = {
     }
     if (creep.store.getFreeCapacity() == 0) {
       creep.memory.working = true;
-      const targets = creep.room.find(FIND_CONSTRUCTION_SITES)
-        .sort(function (a, b) {
-          if (a.progressTotal - a.progress < b.progressTotal - b.progress) {
-            return -1
-          }
-          if (a.progressTotal - a.progress > b.progressTotal - b.progress) {
-            return 1
-          }
-          return 0
-        })
-      creep.memory.target = targets[0].id
-      creep.say('🚧 build');
+      this.pickConstruction(creep)
     }
 
     if (creep.memory.working) {
       const target = Game.getObjectById(creep.memory.target!) as ConstructionSite
-      if (creep.build(target) == ERR_NOT_IN_RANGE) {
+      const bulidingResult = creep.build(target)
+      if (bulidingResult == ERR_NOT_IN_RANGE) {
         creep.moveTo(target, {visualizePathStyle: {stroke: '#ffffff'}});
+      } else if (bulidingResult == ERR_INVALID_TARGET) {
+        this.pickConstruction(creep)
       }
     } else {
       const constructionSite = Game.getObjectById(creep.memory.target!) as Structure
@@ -37,7 +29,22 @@ const roleBuilder = {
       }
 
     }
-  }
+  },
+
+  pickConstruction: (creep: Creep) => {
+    const targets = creep.room.find(FIND_CONSTRUCTION_SITES)
+      .sort(function (a, b) {
+        if (a.progressTotal - a.progress < b.progressTotal - b.progress) {
+          return -1
+        }
+        if (a.progressTotal - a.progress > b.progressTotal - b.progress) {
+          return 1
+        }
+        return 0
+      })
+    creep.memory.target = targets[0].id
+    creep.say('🚧 build');
+  },
 };
 
 export default roleBuilder;
