@@ -1,4 +1,11 @@
 import { ErrorMapper } from "utils/ErrorMapper";
+import roleDeliverer from 'role.deliverer';
+import roleUpgraderOld from 'role.upgrader.old';
+import roleBuilder from 'role.builder';
+import roleMiner from 'role.miner';
+import roleRepairerOld from 'role.repairer.old';
+import autospawn from 'autospawn';
+import tower from 'tower';
 
 declare global {
   /*
@@ -17,8 +24,8 @@ declare global {
 
   interface CreepMemory {
     role: string;
-    room: string;
     working: boolean;
+    target?: Id<_HasId>;
   }
 
   // Syntax for adding proprties to `global` (ex "global.log")
@@ -32,12 +39,24 @@ declare global {
 // When compiling TS to JS and bundling with rollup, the line numbers and file names in error messages change
 // This utility uses source maps to get the line numbers and file names of the original, TS source code
 export const loop = ErrorMapper.wrapLoop(() => {
-  console.log(`Current game tick is ${Game.time}`);
+  autospawn.checkAndSpawn()
 
-  // Automatically delete memory of missing creeps
-  for (const name in Memory.creeps) {
-    if (!(name in Game.creeps)) {
-      delete Memory.creeps[name];
+  for(const name in Game.creeps) {
+    const creep = Game.creeps[name];
+    if(creep.memory.role == 'deliverer') {
+      roleDeliverer.run(creep);
     }
+    // if(creep.memory.role == 'upgrader') {
+    //   roleUpgraderOld.run(creep);
+    // }
+    if(creep.memory.role == 'builder') {
+      roleBuilder.run(creep);
+    }
+    if(creep.memory.role == 'miner') {
+      roleMiner.run(creep);
+    }
+    // if(creep.memory.role == 'repairer') {
+    //   roleRepairerOld.run(creep);
+    // }
   }
 });

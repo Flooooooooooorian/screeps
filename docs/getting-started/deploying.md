@@ -1,6 +1,6 @@
 # Deploying
 
-## Building your configuration file
+## working your configuration file
 
 The starter kit builds your code using `rollup`, which uses a `screeps.json` file we built on the previous section as its configuration file.
 
