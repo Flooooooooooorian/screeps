@@ -38,14 +38,14 @@ const autospawn = {
     if (upgraders.length < 5) {
       const newName = 'Upgrader' + Game.time;
 
-      const result = Game.spawns['Spawn1'].spawnCreep([MOVE, MOVE, CARRY, CARRY, CARRY, CARRY, CARRY], newName, {
+      const result = Game.spawns['Spawn1'].spawnCreep([MOVE, MOVE, CARRY, CARRY, CARRY, WORK, WORK], newName, {
         memory: {
           role: 'upgrader',
           working: false
         }
       });
       if (result != 0) {
-        Game.spawns['Spawn1'].spawnCreep([MOVE, CARRY], newName, {memory: {role: 'upgrader', working: false}});
+        Game.spawns['Spawn1'].spawnCreep([MOVE, CARRY, WORK], newName, {memory: {role: 'upgrader', working: false}});
       }
     }
   },
