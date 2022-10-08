@@ -9,8 +9,7 @@ const autospawn = {
     if (minerAlive) {
       this.builder();
       this.upgrader();
-    }
-    else {
+    } else {
       console.log("Waiting for big miner to spawn");
     }
 
@@ -35,10 +34,10 @@ const autospawn = {
 
   upgrader: () => {
     const upgraders = _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader');
-    if (upgraders.length < 5) {
+    if (upgraders.length < 2) {
       const newName = 'Upgrader' + Game.time;
 
-      const result = Game.spawns['Spawn1'].spawnCreep([MOVE, MOVE, CARRY, CARRY, CARRY, WORK, WORK], newName, {
+      const result = Game.spawns['Spawn1'].spawnCreep([MOVE, MOVE, MOVE, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, WORK, WORK, WORK, WORK, WORK], newName, {
         memory: {
           role: 'upgrader',
           working: false
@@ -90,7 +89,7 @@ const autospawn = {
     return Game.spawns['Spawn1'].room
       .find(FIND_SOURCES)
       .map((source) => {
-        const minersInMemory = _.filter(Game.creeps, (creep) => creep.memory.role == 'miner' && creep.memory.target == source.id).sort((a, b) =>  b.body.length - a.body.length);
+        const minersInMemory = _.filter(Game.creeps, (creep) => creep.memory.role == 'miner' && creep.memory.target == source.id).sort((a, b) => b.body.length - a.body.length);
         if (minersInMemory.length < 1 || minersInMemory[0].body.length < 5) {
           const newName = 'Miner' + source.id + Game.time;
           result = Game.spawns['Spawn1'].spawnCreep([MOVE, CARRY, WORK, WORK, WORK, WORK, WORK], newName, {memory: { role: 'miner', target: source.id, working: false }});
@@ -98,10 +97,10 @@ const autospawn = {
             Game.spawns['Spawn1'].spawnCreep([MOVE, CARRY, WORK], newName, { memory: { role: 'miner', target: source.id, working: false } });
           }
           return false;
-        }
-        else {
+        } else {
           return true;
-        }})
+        }
+      })
       .reduce((a, b) => a && b, true);
   }
 };
