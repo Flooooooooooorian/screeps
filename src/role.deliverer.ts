@@ -14,9 +14,14 @@ let roleDeliverer = {
       this.selectDestination(creep)
     }
 
+    if (creep.memory.working && !creep.memory.target) {
+      creep.memory.working = false
+    }
+
     if (creep.memory.working) {
       const target: Structure | null = Game.getObjectById(creep.memory.target!) as Structure
-      if (creep.withdraw(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+      const result = creep.withdraw(target, RESOURCE_ENERGY)
+      if (result == ERR_NOT_IN_RANGE) {
         creep.moveTo(target, {visualizePathStyle: {stroke: '#ffffff'}});
       }
     } else {
@@ -39,16 +44,16 @@ let roleDeliverer = {
       }
     })
       .sort(function (a, b) {
-        if (a.structureType == STRUCTURE_SPAWN) {
-          return -1
-        }
-        if (b.structureType == STRUCTURE_SPAWN) {
-          return 1
-        }
         if (a.structureType == STRUCTURE_EXTENSION) {
           return -1
         }
         if (b.structureType == STRUCTURE_EXTENSION) {
+          return 1
+        }
+        if (a.structureType == STRUCTURE_SPAWN) {
+          return -1
+        }
+        if (b.structureType == STRUCTURE_SPAWN) {
           return 1
         }
         if (a.structureType == STRUCTURE_TOWER) {
